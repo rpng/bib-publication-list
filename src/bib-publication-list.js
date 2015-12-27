@@ -254,6 +254,7 @@ var bibtexify = (function($) {
     };
     var table = this.$pubTable.dataTable({ 'aaData': bibentries,
       'aaSorting': this.options.sorting,
+      'searching': this.options.searching,
       'aoColumns': [ { "sTitle": "Year" },
         { "sTitle": "Type", "sType": "type-sort", "asSorting": [ "desc", "asc" ] },
         { "sTitle": "Publication", "bSortable": false }],
@@ -321,9 +322,9 @@ var bibtexify = (function($) {
                                               chartIdSelector + " .pub { height: " + pubHeight + "px; }";
     var legendTypes = [];
     var stats2html = function(item) {
-      var types = [],
-                                                str = '<div class="year">',
-                                                sum = 0;
+      var types = [];
+      var str = '<div class="year">';
+      var sum = 0;
       $.each(item.types, function(type, value) {
         types.push(type);
         sum += value;
@@ -374,6 +375,7 @@ var bibtexify = (function($) {
   return function(bibsrc, bibElemId, opts) {
     var options = $.extend({}, {
       'visualization': true,
+      'searching': false,
       'sorting': [[0, "desc"], [1, "desc"]]
     }, opts);
     var $pubTable = $("#" + bibElemId).addClass("bibtable");
