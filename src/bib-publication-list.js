@@ -4,39 +4,39 @@ var bibtexify = (function($) {
   var htmlify = function(str) {
     // TODO: this is probably not a complete list..
     str = str.replace(/\\"\{a\}/g, '&auml;')
-                                              .replace(/\{\\aa\}/g, '&aring;')
-                                              .replace(/\\aa\{\}/g, '&aring;')
-                                              .replace(/\\"a/g, '&auml;')
-                                              .replace(/\\"\{o\}/g, '&ouml;')
-                                              .replace(/\\'e/g, '&eacute;')
-                                              .replace(/\\'\{e\}/g, '&eacute;')
-                                              .replace(/\\'a/g, '&aacute;')
-                                              .replace(/\\'A/g, '&Aacute;')
-                                              .replace(/\\"o/g, '&ouml;')
-                                              .replace(/\\ss\{\}/g, '&szlig;')
-                                              .replace(/\{/g, '')
-                                              .replace(/\}/g, '')
-                                              .replace(/\\&/g, '&')
-                                              .replace(/--/g, '&ndash;');
+            .replace(/\{\\aa\}/g, '&aring;')
+            .replace(/\\aa\{\}/g, '&aring;')
+            .replace(/\\"a/g, '&auml;')
+            .replace(/\\"\{o\}/g, '&ouml;')
+            .replace(/\\'e/g, '&eacute;')
+            .replace(/\\'\{e\}/g, '&eacute;')
+            .replace(/\\'a/g, '&aacute;')
+            .replace(/\\'A/g, '&Aacute;')
+            .replace(/\\"o/g, '&ouml;')
+            .replace(/\\ss\{\}/g, '&szlig;')
+            .replace(/\{/g, '')
+            .replace(/\}/g, '')
+            .replace(/\\&/g, '&')
+            .replace(/--/g, '&ndash;');
     return str;
   };
   var uriencode = function(str) {
     // TODO: this is probably not a complete list..
     str = str.replace(/\\"\{a\}/g, '%C3%A4')
-                                              .replace(/\{\\aa\}/g, '%C3%A5')
-                                              .replace(/\\aa\{\}/g, '%C3%A5')
-                                              .replace(/\\"a/g, '%C3%A4')
-                                              .replace(/\\"\{o\}/g, '%C3%B6')
-                                              .replace(/\\'e/g, '%C3%A9')
-                                              .replace(/\\'\{e\}/g, '%C3%A9')
-                                              .replace(/\\'a/g, '%C3%A1')
-                                              .replace(/\\'A/g, '%C3%81')
-                                              .replace(/\\"o/g, '%C3%B6')
-                                              .replace(/\\ss\{\}/g, '%C3%9F')
-                                              .replace(/\{/g, '')
-                                              .replace(/\}/g, '')
-                                              .replace(/\\&/g, '%26')
-                                              .replace(/--/g, '%E2%80%93');
+          .replace(/\{\\aa\}/g, '%C3%A5')
+          .replace(/\\aa\{\}/g, '%C3%A5')
+          .replace(/\\"a/g, '%C3%A4')
+          .replace(/\\"\{o\}/g, '%C3%B6')
+          .replace(/\\'e/g, '%C3%A9')
+          .replace(/\\'\{e\}/g, '%C3%A9')
+          .replace(/\\'a/g, '%C3%A1')
+          .replace(/\\'A/g, '%C3%81')
+          .replace(/\\"o/g, '%C3%B6')
+          .replace(/\\ss\{\}/g, '%C3%9F')
+          .replace(/\{/g, '')
+          .replace(/\}/g, '')
+          .replace(/\\&/g, '%26')
+          .replace(/--/g, '%E2%80%93');
     return str;
   };
   // helper functions to turn a single bibtex entry into HTML
@@ -124,48 +124,47 @@ var bibtexify = (function($) {
     // helper functions for formatting different types of bibtex entries
     inproceedings: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                entryData.title + ". In <em>" + entryData.booktitle +
-                                                ", pp. " + entryData.pages +
-                                                ((entryData.address)?", " + entryData.address:"") + ".<\/em>";
+              entryData.title + ". In <em>" + entryData.booktitle +
+              ", pp. " + entryData.pages +
+              ((entryData.address)?", " + entryData.address:"") + ".<\/em>";
     },
     article: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                entryData.title + ". <em>" + entryData.journal + ", " + entryData.volume +
-                                                ((entryData.number)?"(" + entryData.number + ")":"")+ ", " +
-                                                "pp. " + entryData.pages + ". " +
-                                                ((entryData.address)?entryData.address + ".":"") + "<\/em>";
+              entryData.title + ". <em>" + entryData.journal + ", " + entryData.volume +
+              ((entryData.number)?"(" + entryData.number + ")":"")+ ", " +
+              "pp. " + entryData.pages + ". " +
+              ((entryData.address)?entryData.address + ".":"") + "<\/em>";
     },
     misc: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                entryData.title + ". " +
-                                                ((entryData.howpublished)?entryData.howpublished + ". ":"") +
-                                                ((entryData.note)?entryData.note + ".":"");
+              entryData.title + ". " +
+              ((entryData.howpublished)?entryData.howpublished + ". ":"") +
+              ((entryData.note)?entryData.note + ".":"");
     },
     mastersthesis: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                entryData.title + ". " + entryData.type + ". " +
-                                                entryData.organization + ", " + entryData.school + ".";
+              entryData.title + ". " + entryData.type + ". " +
+              entryData.organization + ", " + entryData.school + ".";
     },
     techreport: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                entryData.title + ". " + entryData.institution + ". " +
-                                                entryData.number + ". " + entryData.type + ".";
+              entryData.title + ". " + entryData.institution + ". " +
+              entryData.number + ". " + entryData.type + ".";
     },
     book: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                " <em>" + entryData.title + "<\/em>, " +
-                                                entryData.publisher + ", " + entryData.year +
-                                                ((entryData.issn)?", ISBN: " + entryData.issn + ".":".");
+              " <em>" + entryData.title + "<\/em>, " +
+              entryData.publisher + ", " + entryData.year +
+              ((entryData.issn)?", ISBN: " + entryData.issn + ".":".");
     },
     inbook: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
-                                                entryData.chapter + " in <em>" + entryData.title + "<\/em>, " +
-                                                ((entryData.editor)?" Edited by " + entryData.editor + ", ":"") +
-                                                entryData.publisher + ", pp. " + entryData.pages + "" +
-                                                ((entryData.series)?", <em>" + entryData.series + "<\/em>":"") +
-                                                ((entryData.volume)?", Vol. " + entryData.volume + "":"") +
-                                                ((entryData.issn)?", ISBN: " + entryData.issn + "":"") +
-                                                ".";
+              entryData.chapter + " in <em>" + entryData.title + "<\/em>, " +
+              ((entryData.editor)?" Edited by " + entryData.editor + ", ":"") +
+              entryData.publisher + ", pp. " + entryData.pages + "" +
+              ((entryData.series)?", <em>" + entryData.series + "<\/em>":"") +
+              ((entryData.volume)?", Vol. " + entryData.volume + "":"") +
+              ((entryData.issn)?", ISBN: " + entryData.issn + "":"") + ".";
     },
     // weights of the different types of entries; used when sorting
     importance: {
@@ -373,9 +372,10 @@ var bibtexify = (function($) {
   //   - bib2html: Can be used to override any of the functions or properties of
   //               the bib2html object. See above, starting around line 40.
   return function(bibsrc, bibElemId, opts) {
-    var options = $.extend({}, {'visualization': true,
-                                                'sorting': [[0, "desc"], [1, "desc"]]},
-                                              opts);
+    var options = $.extend({}, {
+      'visualization': true,
+      'sorting': [[0, "desc"], [1, "desc"]]
+    }, opts);
     var $pubTable = $("#" + bibElemId).addClass("bibtable");
     if ($("#shutter").size() === 0) {
       $pubTable.before('<div id="shutter" class="hidden"></div>');
