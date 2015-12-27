@@ -2,18 +2,18 @@
 </body>
 </html>
 <html>
-	<head>
-		<title>Testing bibtex</title>
-		<link rel="stylesheet" href="bib-publication-list.css"/>
-	</head>
-	<body>
-    <noscript>
-      <!-- bibtex source hidden by default, show it if JS disabled -->
-      <style>
-      #bibtex { display: block;}
-      </style>
-    </noscript>
-		<table id="pubTable" class="display"></table>
+<head>
+  <title>Testing bibtex</title>
+  <link rel="stylesheet" href="bib-publication-list.css"/>
+</head>
+<body>
+<noscript>
+  <!-- bibtex source hidden by default, show it if JS disabled -->
+  <style>
+    #bibtex { display: block;}
+  </style>
+</noscript>
+<table id="pubTable" class="display"></table>
         <pre id="bibtex" style="display:none;">
 @InProceedings{Karavirta:APlus,
   author = {Ville Karavirta and Petri Ihantola and Teemu Koskinen},
@@ -626,12 +626,15 @@ keywords = {Xaal}
  url = {http://www.cs.hut.fi/Research/SVG/publications/koli02P08.pdf}
 }
 </pre>
-  	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-		<script type="text/javascript" src="build/bib-list.js"></script>
-		<script type="text/javascript">
-		    $(document).ready(function() {
-        	bibtexify("#bibtex", "pubTable", {'tweet': 'vkaravir'});
-    		});
-		</script>
-	</body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="lib/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/BibTex-0.1.2.js"></script>
+<script type="text/javascript" src="src/bib-publication-list.js"></script>
+<!--<script type="text/javascript" src="build/bib-list.js"></script>-->
+<script type="text/javascript">
+  $(document).ready(function() {
+    bibtexify("#bibtex", "pubTable", {'tweet': 'vkaravir'});
+  });
+</script>
+</body>
 </html>
