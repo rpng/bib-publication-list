@@ -33,6 +33,7 @@ into a sortable and searchable table. For example:
    year = {2010},
    issn = {1045-926X},
    doi = {DOI: 10.1016/j.jvlc.2009.09.001},
+   read_date = {2015-11-13}, // This is optional
    author = {Ville Karavirta and Ari Korhonen and Lauri Malmi and Thomas Naps}
 }
 </pre>
@@ -64,6 +65,7 @@ The bibtexify function accepts an optional third parameter for configuration opt
 <table>
 <tbody>
 <tr><td>visualization</td><td>A boolean to control addition of the visualization. Defaults to true.</td></tr>
+<tr><td>future</td><td>If set to true it will read the `read_date` from the bibtex entry. This will be entered in the first column and is great for reading group due dates etc. It is recommended that the visualization is turned off. Defaults to false.</td></tr>
 <tr><td>tweet</td><td>Twitter username to add Tweet links to bib items with a url field.</td></tr>
 <tr><td>sorting</td><td>Control the default sorting of the list. Defaults to `[[0, "desc"], [1, "desc"]]`. See (http://datatables.net/api#fnSort) for details on formatting.</td></tr>
 <tr><td>searching</td><td>If true this will display a search bar for users to search for publications. By default this is disabled</td></tr>
