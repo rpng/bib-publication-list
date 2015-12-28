@@ -3,9 +3,10 @@
 * Commented source code
 * Updated libraries
 * Nicer popup
-* Different styling (white base)
+* Different styling (white base, centered)
 * Disable search bar by default
 * Cleaned source code
+* Added future option (reading groups)
 
 
 ## Getting Started
