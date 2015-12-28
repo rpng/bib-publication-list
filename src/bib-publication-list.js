@@ -88,7 +88,7 @@ var bibtexify = (function($) {
     bibtex: function(entryData) {
       var itemStr = '';
       itemStr += ' (<a title="This article as BibTeX" href="#" class="biblink">' + 'bib</a>)<div class="bibinfo hidden">';
-      itemStr += '<a href="#" class="bibclose" title="Close">x</a><pre>';
+      itemStr += '<pre>';
       itemStr += '@' + entryData.entryType + "{" + entryData.cite + ",\n";
       $.each(entryData, function(key, value) {
         if (key == 'author') {
@@ -210,20 +210,6 @@ var bibtexify = (function($) {
   // Conference is the same as inproceedings
   bib2html.conference = bib2html.inproceedings;
 
-  // event handlers for the bibtex links
-  var EventHandlers = {
-    showbib: function showbib(event) {
-      $(this).next(".bibinfo").removeClass('hidden').addClass("open");
-      $("#shutter").show();
-      event.preventDefault();
-    },
-    hidebib: function hidebib(event) {
-      $("#shutter").hide();
-      $(".bibinfo.open").removeClass("open").addClass("hidden");
-      event.preventDefault();
-    }
-  };
-
   var Bib2HTML = function(data, $pubTable, options) {
     this.options = options;
     this.$pubTable = $pubTable;
@@ -284,9 +270,13 @@ var bibtexify = (function($) {
           [0, $thElems.eq(0).hasClass("sorting_asc")?"asc":"desc"]]);
       }
     });
-    // attach the event handlers to the bib items
-    $('body').on('click', '.biblink', EventHandlers.showbib);
-    $('body').on('click', '.bibclose', EventHandlers.hidebib);
+    // Enable popup using "Popup.js" plugin
+    // This will display the bib entry in pre tags
+    $('.biblink').popup({
+      content : function(){
+        return $(this.ele).next(".bibinfo").html();
+      }
+    });
   };
   // updates the stats, called whenever a new bibtex entry is parsed
   bibproto.updateStats = function updateStats(item) {
@@ -385,10 +375,6 @@ var bibtexify = (function($) {
       'sorting': [[0, "desc"], [1, "desc"]]
     }, opts);
     var $pubTable = $("#" + bibElemId).addClass("bibtable");
-    if ($("#shutter").size() === 0) {
-      $pubTable.before('<div id="shutter" class="hidden"></div>');
-      $("#shutter").click(EventHandlers.hidebib);
-    }
     if (options.visualization) {
       $pubTable.before('<div id="' + bibElemId + 'pubchart" class="bibchart"></div>');
     }
