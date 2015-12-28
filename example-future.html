@@ -1,0 +1,105 @@
+<!doctype html>
+</body>
+</html>
+<html>
+<head>
+  <title>Testing bibtex</title>
+  <link rel="stylesheet" href="src/bib-publication-list.css"/>
+  <link rel="stylesheet" href="lib/css/jquery.dataTables.css"/>
+  <link rel="stylesheet" href="lib/css/popup.css"/>
+</head>
+<body>
+<noscript>
+  <!-- bibtex source hidden by default, show it if JS disabled -->
+  <style>
+    #bibtex { display: block;}
+  </style>
+</noscript>
+<table id="pubTable" class="hover"></table>
+        <pre id="bibtex" style="display:none;">
+@InProceedings{Karavirta:APlus,
+  author = {Ville Karavirta and Petri Ihantola and Teemu Koskinen},
+  title = {Service-Oriented Approach to Improve Interoperability of e-Learning Systems},
+  booktitle = {13th IEEE International Conference on Advanced Learning Technologies},
+  year = {To Appear},
+  read_date = {2015-12-25},
+  pages = {5}
+}
+@InProceedings{Karavirta:SpatialJSAV,
+  author = {Ville Karavirta},
+  title = {Location-Aware Mobile Learning of Spatial Algorithms},
+  booktitle = {IADIS International Conference on Mobile Learning 2013},
+  read_date = {2015-12-25},
+  year = {To Appear},
+  pages = {5}
+}
+@InProceedings{Karavirta:JSAV,
+  author = {Ville Karavirta and Clifford A. Shaffer},
+  title = {JSAV: JavaScript Algorithm Visualization Library},
+  booktitle = {ACM SIGCSE Conference on Innovation and Technology in Computer Science Education},
+  read_date = {2015-12-11},
+  year = {To Appear},
+  pages = {6}
+}
+@InProceedings{Helminen:ParsonsFeedback,
+  author = {Juha Helminen and Satu Alaoutinen and Petri Ihantola and Ville Karavirta},
+  title = {How Do Students Solve Parsons Programming Problems? -- Execution-based vs. line-based feedback},
+  booktitle = {Learning and Teaching in Computing and Engineering},
+  read_date = {2015-12-05},
+  year = {To Appear},
+  pages = {7}
+}
+@InProceedings{Karavirta:JSAVHeaps,
+  author = {Ville Karavirta and Ari Korhonen and Otto Sepp\"{a}l\"{a}},
+  title = {Misconceptions in Visual Algorithm Simulation Revisited: On UI's Effect on Student Performance, Attitudes, and Misconceptions},
+  booktitle = {Learning and Teaching in Computing and Engineering},
+  read_date = {2015-11-20},
+  year = {To Appear},
+  pages = {8}
+}
+
+@InProceedings{Karavirta:MobileParsons,
+  author = {Ville Karavirta and Juha Helminen and Petri Ihantola},
+  title = {A Mobile Learning Application for Parsons Problems with Automatic Feedback},
+  booktitle = {Proceedings of the 12th Koli Calling International Conference on Computing Education Research},
+  year = {2012},
+  read_date = {2015-11-20},
+  url = {http://dl.acm.org/authorize?6860241},
+  pages = {11--18}
+}
+
+@InProceedings{Karavirta:BSTAcceleration,
+  author = {Ville Karavirta and Lasse Hakulinen},
+  title = {Educational Accelerometer Games for Computer Science},
+  booktitle = {Proceedings of the 11th World Conference on Mobile and Contextual Learning},
+  year = {2012},
+  pages = {216--219},
+  read_date = {2015-11-13},
+  url = {http://ceur-ws.org/Vol-955/papers/paper_28.pdf}
+}
+@InProceedings{Helminen:ParsonAnalysis,
+  author = {Juha Helminen and Petri Ihantola and Ville Karavirta and Lauri Malmi},
+  title = {How Do Students Solve Parsons Programming Problems? -- An Analysis of Interaction Traces},
+  booktitle = {Proceedings of the 8th International Computing Education Research Conference},
+  year = {2012},
+  pages = {119--126},
+  read_date = {2015-11-06},
+  url = {http://dl.acm.org/authorize?6724413},
+  address = {Auckland, New Zealand}
+}
+
+</pre>
+<script type="text/javascript" src="lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="lib/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="lib/js/jquery.popup.js"></script>
+<script type="text/javascript" src="lib/js/moment.js"></script>
+<script type="text/javascript" src="lib/js/BibTex-0.1.2.js"></script>
+<script type="text/javascript" src="src/bib-publication-list.js"></script>
+<!--<script type="text/javascript" src="build/bib-list.js"></script>-->
+<script type="text/javascript">
+  $(document).ready(function() {
+    bibtexify("#bibtex", "pubTable", { "future": true, "visualization": false });
+  });
+</script>
+</body>
+</html>

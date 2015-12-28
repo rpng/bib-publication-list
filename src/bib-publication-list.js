@@ -246,7 +246,14 @@ var bibtexify = (function($) {
       // Convert the entry to html using our parser
       var html = bib2html.entry2html(item, this);
       // Add to our bib entry array
-      bibentries.push([item.year, bib2html.labels[item.entryType], html]);
+      if (!this.options.future) {
+        bibentries.push([item.year, bib2html.labels[item.entryType], html]);
+      } else {
+        // If the date is not defined, set as invalid
+        var data_string = (typeof item.read_date == 'undefined')? "Invalid Date" : moment(item.read_date).format('LL');
+        // Append to our entry list
+        bibentries.push([data_string, item.year, bib2html.labels[item.entryType], html]);
+      }
       // Add our entry types so we know what to sort by
       entryTypes[bib2html.labels[item.entryType]] = item.entryType;
       // Update our legend stats
@@ -266,18 +273,44 @@ var bibtexify = (function($) {
       // Based on our weights, return which one should be listed before
       return ((item1 < item2) ? 1 : ((item1 > item2) ?  -1 : 0));
     };
-    // Define our data table, and created it
-    var table = this.$pubTable.dataTable({
-      'aaData': bibentries,
-      'aaSorting': this.options.sorting,
-      'searching': this.options.searching,
-      'aoColumns': [
-        { "sTitle": "Year", "orderDataSince": 1 },
-        { "sTitle": "Type", "sType": "type-sort", "asSorting": [ "desc", "asc" ] },
-        { "sTitle": "Publication", "bSortable": false }
-      ],
-      'bPaginate': false
-    });
+    // If we are not doing future entries, render the normal table
+    if (!this.options.future) {
+      // Define our data table, and created it
+      var table = this.$pubTable.dataTable({
+        'aaData': bibentries,
+        'aaSorting': this.options.sorting,
+        'searching': this.options.searching,
+        'aoColumns': [
+          {"sTitle": "Year", "orderDataSince": 1},
+          {"sTitle": "Type", "sType": "type-sort", "asSorting": ["desc", "asc"]},
+          {"sTitle": "Publication", "bSortable": false}
+        ],
+        "columnDefs": [
+          {"targets": 0, "sClass": "center"},
+          {"targets": 1, "sClass": "center"}
+        ],
+        'bPaginate': false
+      });
+    } else {
+      // Define our data table, and created it
+      var table = this.$pubTable.dataTable({
+        'aaData': bibentries,
+        'aaSorting': this.options.sorting,
+        'searching': this.options.searching,
+        'aoColumns': [
+          {"sTitle": "Readed On", "orderDataSince": 1},
+          {"sTitle": "Year", "orderDataSince": 2},
+          {"sTitle": "Type", "sType": "type-sort", "asSorting": ["desc", "asc"]},
+          {"sTitle": "Publication", "bSortable": false}
+        ],
+        "columnDefs": [
+          {"targets": 0, "sClass": "center", "width": "10%"},
+          {"targets": 1, "sClass": "center"},
+          {"targets": 2, "sClass": "center"}
+        ],
+        'bPaginate': false
+      });
+    }
     // If we have visualization enabled, append the barchart
     if (this.options.visualization) {
       this.addBarChart();
@@ -388,6 +421,7 @@ var bibtexify = (function($) {
     var options = $.extend({}, {
       'visualization': true,
       'searching': false,
+      'future': false,
       'sorting': [[0, "desc"], [1, "desc"]]
     }, opts);
     // Add our master class to the table
