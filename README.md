@@ -1,3 +1,13 @@
+## Differences from Original
+
+* Commented source code
+* Updated libraries
+* Nicer popup
+* Different styling (white base)
+* Disable search bar by default
+* Cleaned source code
+
+
 ## Getting Started
 
 First, load the required JS and CSS files:
@@ -60,15 +70,6 @@ The bibtexify function accepts an optional third parameter for configuration opt
 <tr><td>defaultYear</td><td>Entries without a year will use this as year. Defaults to "To Appear".
 </tbody>
 </table>
-
-## Differences from Original
-
-* Commented source code
-* Updated libraries
-* Nicer popup
-* Different styling (white base)
-* Disable search bar
-* Cleaned source code
 
 ## Building from Source
 
