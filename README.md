@@ -39,19 +39,13 @@ bibtexify("#bibtex", "pubTable");
 bibtexify("example-biblist.bib", "pubTable");
 ```
 
-The result looks like my publication list at: http://villekaravirta.com/publications/.
-
 If you want to fix the flash of unstyled content, you can hide the #bibtex element and make it
-visible when JavaScript is disabled. To do that, add
+visible when JavaScript is disabled. To do that, add:
 
-    #bibtex { display: none; }
-
-to your CSS and
-
-    <noscript><style>#bibtex { display: block; }</style></noscript>
-
-to your HTML.
-
+```
+#bibtex { display: none; } // to css
+<noscript><style>#bibtex { display: block; }</style></noscript> // to html
+```
 
 ## Configuration Options
 
@@ -67,10 +61,19 @@ The bibtexify function accepts an optional third parameter for configuration opt
 </tbody>
 </table>
 
-## Building from source
+## Differences from Original
+
+* Commented source code
+* Updated libraries
+* Nicer popup
+* Different styling (white base)
+* Disable search bar
+* Cleaned source code
+
+## Building from Source
 
 There is a Jakefile for building the combined and minified versions with [Jake](https://github.com/mde/jake)
-and a Makefile for building with make. They use the [yuicompressor](http://yui.github.io/yuicompressor/) tool to minify both the css and js.
+and a Makefile for building with make. Currently uses the [yuicompressor](http://yui.github.io/yuicompressor/) tool to minify both the css and js and output that into the build folder. *(note: the jake file has not been updated to new system)*
 
 
 ## Credits
