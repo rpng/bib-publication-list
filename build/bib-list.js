@@ -18013,8 +18013,14 @@ var bibtexify = (function($) {
       if (!this.options.future) {
         bibentries.push([item.year, bib2html.labels[item.entryType], html]);
       } else {
+        var data_string;
         // If the date is not defined, set as invalid
-        var data_string = (typeof item.read_date == 'undefined')? "Invalid Date" : moment(item.read_date).format('LL');
+        if(typeof item.read_date == 'undefined')
+          data_string = "Invalid Date";
+        else if(item.read_date == "TBD")
+          data_string = "To Be Determined";
+        else
+          data_string = moment(item.read_date).format('LL');
         // Append to our entry list
         bibentries.push([data_string, item.year, bib2html.labels[item.entryType], html]);
       }
@@ -18072,7 +18078,9 @@ var bibtexify = (function($) {
           {"targets": 1, "sClass": "center"},
           {"targets": 2, "sClass": "center"}
         ],
-        'bPaginate': false
+        'bPaginate': true,
+        'bLengthChange': false,
+        'pageLength': 50
       });
     }
     // If we have visualization enabled, append the barchart
