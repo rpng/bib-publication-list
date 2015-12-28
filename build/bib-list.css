@@ -524,6 +524,9 @@ div.popup {
 .clear {
     clear: both;
 }
+.center {
+    text-align: center;
+}
 
 /* Color what bib entry part is missing red */
 span.undefined {
