@@ -5,7 +5,7 @@ First, load the required JS and CSS files:
 ```html
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bib-list.min.js"></script>
-<link rel="stylesheet" href="assets/css/bib-list.min.css" type="text/css" />
+<link href="assets/css/bib-list.min.css" rel="stylesheet" type="text/css" />
 ```
 
 All you need to do is to include the BibTeX into an HTML page and tell the script to turn it 
