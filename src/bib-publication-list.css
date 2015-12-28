@@ -1,6 +1,8 @@
+/* Color what bib entry part is missing red */
 span.undefined {
     color: red;
 }
+/* General table style */
 .bibtable {
     width: 100%;
     margin: 0 auto;
@@ -14,6 +16,8 @@ span.undefined {
 .clear {
     clear: both;
 }
+
+/* Top bar chart styling */
 .year {
     position: relative;
     height: 100%;
@@ -63,46 +67,8 @@ span.undefined {
     text-align: center;
     width: 100%;
 }
-table.display thead th {
-    padding: 3px 18px 3px 10px;
-    border-bottom: 1px solid black;
-    border-top: 1px solid black;
-    font-weight: bold;
-    cursor: pointer;
-    cursor: hand;
-}
-table.display tfoot th {
-    padding: 3px 10px;
-    border-top: 1px solid black;
-    font-weight: bold;
-}
-table.display td {
-    padding: 3px 10px;
-}
-table.display td.center {
-    text-align: center;
-}
-.sorting_asc {
-    background: url('../lib/js/images/sort_asc.png') no-repeat center right;
-}
-.sorting_desc {
-    background: url('../lib/js/images/sort_desc.png') no-repeat center right;
-}
-.sorting {
-    background: url('../lib/js/images/sort_both.png') no-repeat center right;
-}
-.sorting_asc_disabled {
-    background: url('../lib/js/images/sort_asc_disabled.png') no-repeat center right;
-}
-.sorting_desc_disabled {
-    background: url('../lib/js/images/sort_desc_disabled.png') no-repeat center right;
-}
-tr.odd {
-    background-color: #eee;
-}
-tr.even {
-    background-color: white;
-}
+
+/* Bib popup styling */
 div.hidden {
     display: none;
 }
