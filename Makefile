@@ -5,8 +5,8 @@ MINIMIZE_CSS = java -jar tools/yuicompressor-2.4.6.jar -o $(TARGET)/bib-list.min
 CAT = cat
 SRC = src
 TARGET = build
-SOURCES_JS = $(LIB)/js/BibTex-0.1.2.js $(LIB)/js/jquery.dataTables.min.js $(LIB)/js/jquery.popup.min.js $(SRC)/bib-publication-list.js
-SOURCES_CSS = $(LIB)/css/jquery.dataTables.min.css $(LIB)/css/popup.css $(SRC)/bib-publication-list.css
+SOURCES_JS = $(LIB)/js/BibTex-0.1.2.js $(LIB)/js/jquery.dataTables.js $(LIB)/js/jquery.popup.js $(SRC)/bib-publication-list.js
+SOURCES_CSS = $(LIB)/css/jquery.dataTables.css $(LIB)/css/popup.css $(SRC)/bib-publication-list.css
 
 all: build
 
