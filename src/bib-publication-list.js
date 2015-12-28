@@ -1,6 +1,6 @@
 
 var bibtexify = (function($) {
-  // helper function to "compile" LaTeX special characters to HTML
+  // Helper function to "compile" LaTeX special characters to HTML
   var htmlify = function(str) {
     // TODO: this is probably not a complete list..
     str = str.replace(/\\"\{a\}/g, '&auml;')
@@ -39,25 +39,32 @@ var bibtexify = (function($) {
           .replace(/--/g, '%E2%80%93');
     return str;
   };
-  // helper functions to turn a single bibtex entry into HTML
+  // Helper functions to turn a single bibtex entry into HTML
   var bib2html = {
     // the main function which turns the entry into HTML
     entry2html: function(entryData, bib) {
+      // Get our entry type
       var type = entryData.entryType.toLowerCase();
-      // default to type misc if type is unknown
+      // Default to type misc if type is unknown
       if(array_keys(bib2html).indexOf(type) === -1) {
         type = 'misc';
         entryData.entryType = type;
       }
+      // Call the render function of our type, and get the rendered publication
       var itemStr = htmlify(bib2html[type](entryData));
-      itemStr += bib2html.links(entryData);
+      // Add our bib entry modal and link
       itemStr += bib2html.bibtex(entryData);
+      // Add our link contents
+      itemStr += bib2html.links(entryData);
+      // If we have tweet enabled, and the bib entry has a url, add the tweet option
       if (bib.options.tweet && entryData.url) {
         itemStr += bib2html.tweet(entryData, bib);
       }
+      // Return the string with the undefined entries marked as red
+      // This would happen if the bib entry is missing information
       return itemStr.replace(/undefined/g, '<span class="undefined">missing<\/span>');
     },
-    // converts the given author data into HTML
+    // Converts the given author data into HTML
     authors2html: function(authorData) {
       var authorsStr = '';
       for (var index = 0; index < authorData.length; index++) {
@@ -67,7 +74,7 @@ var bibtexify = (function($) {
       }
       return htmlify(authorsStr);
     },
-    // adds links to the PDF or url of the item
+    // Adds links to the PDF or url of the item
     links: function(entryData) {
       var itemStr = '';
       if (entryData.url && entryData.url.match(/.*\.pdf/)) {
@@ -77,7 +84,7 @@ var bibtexify = (function($) {
       }
       return itemStr;
     },
-    // adds the bibtex link and the opening div with bibtex content
+    // Adds the bibtex link and the opening div with bibtex content
     bibtex: function(entryData) {
       var itemStr = '';
       itemStr += ' (<a title="This article as BibTeX" href="#" class="biblink">' + 'bib</a>)<div class="bibinfo hidden">';
@@ -98,7 +105,7 @@ var bibtexify = (function($) {
       itemStr += "}</pre></div>";
       return itemStr;
     },
-    // generates the twitter link for the entry
+    // Generates the twitter link for the entry
     tweet: function(entryData, bib) {
       // url, via, text
       var itemStr = ' (<a title="Tweet this article" href="http://twitter.com/share?url=';
@@ -121,7 +128,7 @@ var bibtexify = (function($) {
       itemStr += '" target="_blank">tweet</a>)';
       return itemStr;
     },
-    // helper functions for formatting different types of bibtex entries
+    // Helper functions for formatting different types of bibtex entries
     inproceedings: function(entryData) {
       return this.authors2html(entryData.author) + " (" + entryData.year + "). " +
               entryData.title + ". In <em>" + entryData.booktitle +
@@ -166,9 +173,8 @@ var bibtexify = (function($) {
               ((entryData.volume)?", Vol. " + entryData.volume + "":"") +
               ((entryData.issn)?", ISBN: " + entryData.issn + "":"") + ".";
     },
-    // weights of the different types of entries; used when sorting
+    // Weights of the different types of entries; used when sorting
     importance: {
-      'TITLE': 9999,
       'misc': 0,
       'manual': 10,
       'techreport': 20,
@@ -183,7 +189,7 @@ var bibtexify = (function($) {
       'book': 110,
       'unpublished': 120
     },
-    // labels used for the different types of entries
+    // Labels used for the different types of entries
     labels: {
       'article': 'Journal',
       'book': 'Book',
@@ -199,9 +205,9 @@ var bibtexify = (function($) {
       'techreport': 'Technical report',
       'unpublished': 'Unpublished'}
   };
-  // format a phd thesis similarly to masters thesis
+  // Format a phd thesis similarly to masters thesis
   bib2html.phdthesis = bib2html.mastersthesis;
-  // conference is the same as inproceedings
+  // Conference is the same as inproceedings
   bib2html.conference = bib2html.inproceedings;
 
   // event handlers for the bibtex links
