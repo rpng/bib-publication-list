@@ -210,66 +210,78 @@ var bibtexify = (function($) {
   // Conference is the same as inproceedings
   bib2html.conference = bib2html.inproceedings;
 
+  // Our master prototype object
   var Bib2HTML = function(data, $pubTable, options) {
     this.options = options;
     this.$pubTable = $pubTable;
     this.stats = { };
     this.initialize(data);
   };
+
+  // Define our prototype
   var bibproto = Bib2HTML.prototype;
+
+  // The initialization function
+  // We take our bib data, parse it and handle creating our data table
+  // And the bar graph for visualization
   bibproto.initialize = function initialize(data) {
+    // Parese our data using the "BibTex-0.1.2" plugin
     var bibtex = new BibTex();
     bibtex.content = data;
     bibtex.parse();
-    var bibentries = [], len = bibtex.data.length;
+    // Our data
+    var bibentries = [];
+    var len = bibtex.data.length;
     var entryTypes = {};
+    // Merge bib2html options with our current ones recursively
     jQuery.extend(true, bib2html, this.options.bib2html);
+    // Loop through each bib entry
     for (var index = 0; index < len; index++) {
+      // Our bib entry
       var item = bibtex.data[index];
+      // If we do not have a year, default it to "To Appear"
       if (!item.year) {
         item.year = this.options.defaultYear || "To Appear";
       }
+      // Convert the entry to html using our parser
       var html = bib2html.entry2html(item, this);
+      // Add to our bib entry array
       bibentries.push([item.year, bib2html.labels[item.entryType], html]);
+      // Add our entry types so we know what to sort by
       entryTypes[bib2html.labels[item.entryType]] = item.entryType;
+      // Update our legend stats
       this.updateStats(item);
     }
+    // Define how to sort asc'ing for the "type" column
     jQuery.fn.dataTableExt.oSort['type-sort-asc'] = function(x, y) {
-      var item1 = bib2html.importance[entryTypes[x]],
-                                                item2 = bib2html.importance[entryTypes[y]];
+      var item1 = bib2html.importance[entryTypes[x]];
+      var item2 = bib2html.importance[entryTypes[y]];
+      // Based on our weights, return which one should be listed before
       return ((item1 < item2) ? -1 : ((item1 > item2) ?  1 : 0));
     };
+    // Define how to sort desc'ing for the "type" column
     jQuery.fn.dataTableExt.oSort['type-sort-desc'] = function(x, y) {
-      var item1 = bib2html.importance[entryTypes[x]],
-                                                item2 = bib2html.importance[entryTypes[y]];
+      var item1 = bib2html.importance[entryTypes[x]];
+      var item2 = bib2html.importance[entryTypes[y]];
+      // Based on our weights, return which one should be listed before
       return ((item1 < item2) ? 1 : ((item1 > item2) ?  -1 : 0));
     };
-    var table = this.$pubTable.dataTable({ 'aaData': bibentries,
+    // Define our data table, and created it
+    var table = this.$pubTable.dataTable({
+      'aaData': bibentries,
       'aaSorting': this.options.sorting,
       'searching': this.options.searching,
-      'aoColumns': [ { "sTitle": "Year" },
+      'aoColumns': [
+        { "sTitle": "Year", "orderDataSince": 1 },
         { "sTitle": "Type", "sType": "type-sort", "asSorting": [ "desc", "asc" ] },
-        { "sTitle": "Publication", "bSortable": false }],
+        { "sTitle": "Publication", "bSortable": false }
+      ],
       'bPaginate': false
     });
+    // If we have visualization enabled, append the barchart
     if (this.options.visualization) {
       this.addBarChart();
     }
-    $("th", this.$pubTable).unbind("click").click(function(e) {
-      var $this = $(this),
-                                                $thElems = $this.parent().find("th"),
-                                                index = $thElems.index($this);
-      if ($this.hasClass("sorting_disabled")) { return; }
-      $this.toggleClass("sorting_asc").toggleClass("sorting_desc");
-
-      if (index === 0) {
-        table.fnSort( [[0, $thElems.eq(0).hasClass("sorting_asc")?"asc":"desc"],
-          [1, $thElems.eq(1).hasClass("sorting_asc")?"asc":"desc"]]);
-      } else {
-        table.fnSort( [[1, $thElems.eq(1).hasClass("sorting_asc")?"asc":"desc"],
-          [0, $thElems.eq(0).hasClass("sorting_asc")?"asc":"desc"]]);
-      }
-    });
     // Enable popup using "Popup.js" plugin
     // This will display the bib entry in pre tags
     $('.biblink').popup({
@@ -278,7 +290,7 @@ var bibtexify = (function($) {
       }
     });
   };
-  // updates the stats, called whenever a new bibtex entry is parsed
+  // Updates the stats, called whenever a new bibtex entry is parsed
   bibproto.updateStats = function updateStats(item) {
     if (!this.stats[item.year]) {
       this.stats[item.year] = { 'count': 1, 'types': {} };
@@ -292,7 +304,8 @@ var bibtexify = (function($) {
       }
     }
   };
-  // adds the barchart of year and publication types
+  // Adds the barchart of year and publication types
+  // This is rendered of the stats that where generated when bib entries where added
   bibproto.addBarChart = function addBarChart() {
     var yearstats = [], max = 0;
     $.each(this.stats, function(key, value) {
@@ -314,8 +327,8 @@ var bibtexify = (function($) {
     var chartIdSelector = "#" + this.$pubTable[0].id + "pubchart";
     var pubHeight = $(chartIdSelector).height()/max - 2;
     var styleStr = chartIdSelector +" .year { width: " +
-                                              (100.0/yearstats.length) + "%; }" +
-                                              chartIdSelector + " .pub { height: " + pubHeight + "px; }";
+          (100.0/yearstats.length) + "%; }" +
+          chartIdSelector + " .pub { height: " + pubHeight + "px; }";
     var legendTypes = [];
     var stats2html = function(item) {
       var types = [];
@@ -368,21 +381,30 @@ var bibtexify = (function($) {
   //              on formatting.
   //   - bib2html: Can be used to override any of the functions or properties of
   //               the bib2html object. See above, starting around line 40.
+  //  - defaultYear: String of the default year if a year is not provided in the bib
+  //                 entry. Default is "To Appear".
   return function(bibsrc, bibElemId, opts) {
+    // Set our default options if not defined
     var options = $.extend({}, {
       'visualization': true,
       'searching': false,
       'sorting': [[0, "desc"], [1, "desc"]]
     }, opts);
+    // Add our master class to the table
     var $pubTable = $("#" + bibElemId).addClass("bibtable");
+    // If we have visualization append that barchart div above the table
     if (options.visualization) {
       $pubTable.before('<div id="' + bibElemId + 'pubchart" class="bibchart"></div>');
     }
+    // Get our src from html or url
     var $bibSrc = $(bibsrc);
-    if ($bibSrc.length) { // we found an element, use its HTML as bibtex
+    // if true, we found an element, use its HTML as bibtex
+    if ($bibSrc.length) {
       new Bib2HTML($bibSrc.html(), $pubTable, options);
       $bibSrc.hide();
-    } else { // otherwise we assume it is a URL
+    }
+    // Else we assume it is a URL
+    else {
       var callbackHandler = function(data) {
         new Bib2HTML(data, $pubTable, options);
       };
