@@ -249,16 +249,19 @@ var bibtexify = (function($) {
       if (!this.options.future) {
         bibentries.push([item.year, bib2html.labels[item.entryType], html]);
       } else {
-        var data_string;
         // If the date is not defined, set as invalid
         if(typeof item.read_date == 'undefined')
-          data_string = "Invalid Date";
+          bibentries.push(["Invalid Date", item.year, bib2html.labels[item.entryType], html]);
         else if(item.read_date == "TBD")
-          data_string = "To Be Determined";
-        else
-          data_string = moment(item.read_date).format('LL');
-        // Append to our entry list
-        bibentries.push([data_string, item.year, bib2html.labels[item.entryType], html]);
+          bibentries.push(["To Be Determined", item.year, bib2html.labels[item.entryType], html]);
+        else {
+          // Parse date
+          var date = moment(item.read_date);
+          // Add color/bold if date has not past
+          var date_str = (date.isAfter(moment()))? "<strong style='color: red;'>" + date.format('LL') + "<\/strong>" : date.format('LL');
+          // Append to our entry list
+          bibentries.push([date_str, item.year, bib2html.labels[item.entryType], html]);
+        }
       }
       // Add our entry types so we know what to sort by
       entryTypes[bib2html.labels[item.entryType]] = item.entryType;
@@ -324,7 +327,7 @@ var bibtexify = (function($) {
         'aaSorting': this.options.sorting,
         'searching': this.options.searching,
         'aoColumns': [
-          {"sTitle": "Readed On", "orderDataSince": 1, "sType": "date-sort", "asSorting": ["desc", "asc"]},
+          {"sTitle": "Read By", "orderDataSince": 1, "sType": "date-sort", "asSorting": ["desc", "asc"]},
           {"sTitle": "Year", "orderDataSince": 2},
           {"sTitle": "Type", "sType": "type-sort", "asSorting": ["desc", "asc"]},
           {"sTitle": "Publication", "bSortable": false}
