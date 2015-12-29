@@ -250,9 +250,7 @@ var bibtexify = (function($) {
         bibentries.push([item.year, bib2html.labels[item.entryType], html]);
       } else {
         // If the date is not defined, set as invalid
-        if(typeof item.read_date == 'undefined')
-          bibentries.push(["Invalid Date", item.year, bib2html.labels[item.entryType], html]);
-        else if(item.read_date == "TBD")
+        if(typeof item.read_date == 'undefined' || item.read_date == "TBD")
           bibentries.push(["To Be Determined", item.year, bib2html.labels[item.entryType], html]);
         else {
           // Parse date
