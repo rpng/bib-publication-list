@@ -330,7 +330,7 @@ var bibtexify = (function($) {
           {"sTitle": "Publication", "bSortable": false}
         ],
         "columnDefs": [
-          {"targets": 0, "sClass": "center", "width": "10%", "type": "datetime-moment"},
+          {"targets": 0, "sClass": "center", "width": "10%"},
           {"targets": 1, "sClass": "center"},
           {"targets": 2, "sClass": "center"}
         ],
