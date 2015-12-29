@@ -258,7 +258,7 @@ var bibtexify = (function($) {
           // Parse date
           var date = moment(item.read_date);
           // Add color/bold if date has not past
-          var date_str = (date.isAfter(moment()))? "<strong style='color: red;'>" + date.format('LL') + "<\/strong>" : date.format('LL');
+          var date_str = (date.isAfter(moment()))? "<strong style='color:#FF4136;'>" + date.format('LL') + "<\/strong>" : date.format('LL');
           // Append to our entry list
           bibentries.push([date_str, item.year, bib2html.labels[item.entryType], html]);
         }
@@ -284,8 +284,8 @@ var bibtexify = (function($) {
     };
     // Define how to sort asc'ing for the "date" column
     jQuery.fn.dataTableExt.oSort['date-sort-asc'] = function(x, y) {
-      var item1 = new moment(x, 'LL');
-      var item2 = new moment(y, 'LL');
+      var item1 = new moment($(x).text(), 'LL');
+      var item2 = new moment($(y).text(), 'LL');
       // Check if date is valid entry
       if(!item1.isValid() || !item2.isValid())
         return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? -1 : 1;
@@ -294,8 +294,8 @@ var bibtexify = (function($) {
     };
     // Define how to sort desc'ing for the "date" column
     jQuery.fn.dataTableExt.oSort['date-sort-desc'] = function(x, y) {
-      var item1 = new moment(x, 'LL');
-      var item2 = new moment(y, 'LL');
+      var item1 = new moment($(x).text(), 'LL');
+      var item2 = new moment($(y).text(), 'LL');
       // Check if date is valid entry
       if(!item1.isValid() || !item2.isValid())
         return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? 1 : -1;
