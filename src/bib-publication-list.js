@@ -279,6 +279,26 @@ var bibtexify = (function($) {
       // Based on our weights, return which one should be listed before
       return ((item1 < item2) ? 1 : ((item1 > item2) ?  -1 : 0));
     };
+    // Define how to sort asc'ing for the "date" column
+    jQuery.fn.dataTableExt.oSort['date-sort-asc'] = function(x, y) {
+      var item1 = new moment(x, 'LL');
+      var item2 = new moment(y, 'LL');
+      // Check if date is valid entry
+      if(!item1.isValid() || !item2.isValid())
+        return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? -1 : 1;
+      // Based on our weights, return which one should be listed before
+      return ((item1.isBefore(item2)) ? -1 : (item1 == item2) ?  0 : 1);
+    };
+    // Define how to sort desc'ing for the "date" column
+    jQuery.fn.dataTableExt.oSort['date-sort-desc'] = function(x, y) {
+      var item1 = new moment(x, 'LL');
+      var item2 = new moment(y, 'LL');
+      // Check if date is valid entry
+      if(!item1.isValid() || !item2.isValid())
+        return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? 1 : -1;
+      // Based on our weights, return which one should be listed before
+      return ((item1.isBefore(item2)) ? 1 : (item1 == item2) ?  0 : -1);
+    };
     // If we are not doing future entries, render the normal table
     if (!this.options.future) {
       // Define our data table, and created it
@@ -304,13 +324,13 @@ var bibtexify = (function($) {
         'aaSorting': this.options.sorting,
         'searching': this.options.searching,
         'aoColumns': [
-          {"sTitle": "Readed On", "orderDataSince": 1},
+          {"sTitle": "Readed On", "orderDataSince": 1, "sType": "date-sort", "asSorting": ["desc", "asc"]},
           {"sTitle": "Year", "orderDataSince": 2},
           {"sTitle": "Type", "sType": "type-sort", "asSorting": ["desc", "asc"]},
           {"sTitle": "Publication", "bSortable": false}
         ],
         "columnDefs": [
-          {"targets": 0, "sClass": "center", "width": "10%"},
+          {"targets": 0, "sClass": "center", "width": "10%", "type": "datetime-moment"},
           {"targets": 1, "sClass": "center"},
           {"targets": 2, "sClass": "center"}
         ],
