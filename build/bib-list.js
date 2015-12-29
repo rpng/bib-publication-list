@@ -18013,16 +18013,17 @@ var bibtexify = (function($) {
       if (!this.options.future) {
         bibentries.push([item.year, bib2html.labels[item.entryType], html]);
       } else {
-        var data_string;
         // If the date is not defined, set as invalid
-        if(typeof item.read_date == 'undefined')
-          data_string = "Invalid Date";
-        else if(item.read_date == "TBD")
-          data_string = "To Be Determined";
-        else
-          data_string = moment(item.read_date).format('LL');
-        // Append to our entry list
-        bibentries.push([data_string, item.year, bib2html.labels[item.entryType], html]);
+        if(typeof item.read_date == 'undefined' || item.read_date == "TBD")
+          bibentries.push(["To Be Determined", item.year, bib2html.labels[item.entryType], html]);
+        else {
+          // Parse date
+          var date = moment(item.read_date);
+          // Add color/bold if date has not past
+          var date_str = (date.isAfter(moment()))? "<strong style='color:#FF4136;'>" + date.format('LL') + "<\/strong>" : date.format('LL');
+          // Append to our entry list
+          bibentries.push([date_str, item.year, bib2html.labels[item.entryType], html]);
+        }
       }
       // Add our entry types so we know what to sort by
       entryTypes[bib2html.labels[item.entryType]] = item.entryType;
@@ -18042,6 +18043,26 @@ var bibtexify = (function($) {
       var item2 = bib2html.importance[entryTypes[y]];
       // Based on our weights, return which one should be listed before
       return ((item1 < item2) ? 1 : ((item1 > item2) ?  -1 : 0));
+    };
+    // Define how to sort asc'ing for the "date" column
+    jQuery.fn.dataTableExt.oSort['date-sort-asc'] = function(x, y) {
+      var item1 = new moment($(x).text(), 'LL');
+      var item2 = new moment($(y).text(), 'LL');
+      // Check if date is valid entry
+      if(!item1.isValid() || !item2.isValid())
+        return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? -1 : 1;
+      // Based on our weights, return which one should be listed before
+      return ((item1.isBefore(item2)) ? -1 : (item1 == item2) ?  0 : 1);
+    };
+    // Define how to sort desc'ing for the "date" column
+    jQuery.fn.dataTableExt.oSort['date-sort-desc'] = function(x, y) {
+      var item1 = new moment($(x).text(), 'LL');
+      var item2 = new moment($(y).text(), 'LL');
+      // Check if date is valid entry
+      if(!item1.isValid() || !item2.isValid())
+        return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? 1 : -1;
+      // Based on our weights, return which one should be listed before
+      return ((item1.isBefore(item2)) ? 1 : (item1 == item2) ?  0 : -1);
     };
     // If we are not doing future entries, render the normal table
     if (!this.options.future) {
@@ -18068,7 +18089,7 @@ var bibtexify = (function($) {
         'aaSorting': this.options.sorting,
         'searching': this.options.searching,
         'aoColumns': [
-          {"sTitle": "Readed On", "orderDataSince": 1},
+          {"sTitle": "Read By", "orderDataSince": 1, "sType": "date-sort", "asSorting": ["desc", "asc"]},
           {"sTitle": "Year", "orderDataSince": 2},
           {"sTitle": "Type", "sType": "type-sort", "asSorting": ["desc", "asc"]},
           {"sTitle": "Publication", "bSortable": false}

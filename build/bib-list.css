@@ -536,7 +536,6 @@ span.undefined {
 /* Top bar chart styling */
 .year {
     position: relative;
-    height: 100%;
     border-bottom: 1px solid black;
     display: inline-block;
 }
@@ -548,8 +547,7 @@ span.undefined {
     font-size: smaller;
 }
 .pub {
-    border: 1px solid white;
-    background-color: #eee;
+    margin: 1px;
 }
 .inproceedings {
     background-color: #ccf;
@@ -597,4 +595,12 @@ div.hidden {
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+/* Table styles to allow transparency */
+table.dataTable tbody tr {
+    background-color: transparent;
+}
+table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
+    background-color:rgba(0, 0, 0, 0.1);;
 }
