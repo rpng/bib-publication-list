@@ -21295,7 +21295,7 @@ var bibtexify = (function($) {
         ],
         'bPaginate': true,
         'bLengthChange': false,
-        'pageLength': 50
+        'pageLength': 15
       });
     }
     // If we have visualization enabled, append the barchart
@@ -21304,7 +21304,7 @@ var bibtexify = (function($) {
     }
     // Enable popup using "Popup.js" plugin
     // This will display the bib entry in pre tags
-    $('.biblink').popup({
+    $('#'+this.options.id+' .biblink').popup({
       content : function(){
         return $(this.ele).next(".bibinfo").html();
       }
@@ -21406,6 +21406,7 @@ var bibtexify = (function($) {
   return function(bibsrc, bibElemId, opts) {
     // Set our default options if not defined
     var options = $.extend({}, {
+      'id': bibElemId,
       'visualization': true,
       'searching': false,
       'future': false,
@@ -21417,19 +21418,29 @@ var bibtexify = (function($) {
     if (options.visualization) {
       $pubTable.before('<div id="' + bibElemId + 'pubchart" class="bibchart"></div>');
     }
-    // Get our src from html or url
-    var $bibSrc = $(bibsrc);
-    // if true, we found an element, use its HTML as bibtex
-    if ($bibSrc.length) {
-      new Bib2HTML($bibSrc.html(), $pubTable, options);
-      $bibSrc.hide();
+    // Our element
+    var $bib_elm;
+    // Try to find the element in the DOM
+    try {
+      // Get our src from html or url
+      $bib_elm = $(bibsrc);
+    } catch ($exception) {
+      // We have an error, it must be a url
+      $bib_elm = null;
     }
-    // Else we assume it is a URL
+    // If true, we found an element, use its HTML as bibtex
+    if ($bib_elm && $bib_elm.length) {
+      new Bib2HTML($bib_elm.html(), $pubTable, options);
+      $bib_elm.hide();
+    }
     else {
-      var callbackHandler = function(data) {
+      // Else we assume it is a URL
+      $.ajax({
+        method: "GET",
+        url: bibsrc
+      }).done(function( data ) {
         new Bib2HTML(data, $pubTable, options);
-      };
-      $.get(bibsrc, callbackHandler, "text");
+      });
     }
   };
 })(jQuery);
