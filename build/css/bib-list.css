@@ -570,6 +570,9 @@ span.undefined {
 .techreport {
     background-color: #b77;
 }
+.incollection {
+    background-color: #ddb092;
+}
 .legend .pub {
     width: 10px;
     height: 10px;
