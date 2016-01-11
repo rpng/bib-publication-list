@@ -62,7 +62,10 @@ var bibtexify = (function($) {
       }
       // Return the string with the undefined entries marked as red
       // This would happen if the bib entry is missing information
-      return itemStr.replace(/undefined/g, '<span class="undefined">missing<\/span>');
+      if(bib.options.show_missing)
+        return itemStr.replace(/undefined/g, '<span class="undefined">missing<\/span>');
+      else
+        return itemStr;
     },
     // Converts the given author data into HTML
     authors2html: function(authorData) {
@@ -455,6 +458,7 @@ var bibtexify = (function($) {
       'id': bibElemId,
       'visualization': true,
       'searching': false,
+      'show_missing': true,
       'future': false,
       'max_year': 10,
       'sorting': [[0, "desc"], [1, "desc"]]

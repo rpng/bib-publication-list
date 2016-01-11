@@ -70,6 +70,7 @@ The bibtexify function accepts an optional third parameter for configuration opt
 <tr><td>tweet</td><td>Twitter username to add Tweet links to bib items with a url field.</td></tr>
 <tr><td>sorting</td><td>Control the default sorting of the list. Defaults to `[[0, "desc"], [1, "desc"]]`. See (http://datatables.net/api#fnSort) for details on formatting.</td></tr>
 <tr><td>searching</td><td>If true this will display a search bar for users to search for publications. By default this is disabled</td></tr>
+<tr><td>show_missing</td><td>If true this will display red "missing" tags to show what bib elements are incomplete. By default this is enabled. *Note this has not been fully implemented*</td></tr>
 <tr><td>max_year</td><td>How many years should be displayed in the bar graph visualization. This helps the page not look cluttered. By default this is 10 years</td></tr>
 <tr><td>defaultYear</td><td>Entries without a year will use this as year. Defaults to "To Appear".
 </tbody>
