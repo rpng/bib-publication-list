@@ -327,7 +327,7 @@ var bibtexify = (function($) {
         ],
         'bPaginate': true,
         'bLengthChange': false,
-        'pageLength': 20
+        'pageLength': this.options.max_pagination
       });
     } else {
       // Define our data table, and created it
@@ -348,7 +348,7 @@ var bibtexify = (function($) {
         ],
         'bPaginate': true,
         'bLengthChange': false,
-        'pageLength': 15
+        'pageLength': this.options.max_pagination
       });
     }
     // If we have visualization enabled, append the barchart
@@ -472,6 +472,7 @@ var bibtexify = (function($) {
       'searching': false,
       'future': false,
       'max_year': 10,
+      "max_pagination": 20,
       'sorting': [[0, "desc"], [1, "desc"]]
     }, opts);
     // Add our master class to the table
