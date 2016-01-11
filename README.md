@@ -7,6 +7,8 @@
 * Disable search bar by default
 * Cleaned source code
 * Added future option (reading groups)
+* Closer to [IEEE format](http://www.ieee.org/documents/ieeecitationref.pdf)
+* Better handling of missing entries
 
 
 ## Getting Started
