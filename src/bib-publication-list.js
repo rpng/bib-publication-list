@@ -78,9 +78,9 @@ var bibtexify = (function($) {
     links: function(entryData) {
       var itemStr = '';
       if (entryData.url && entryData.url.match(/.*\.pdf/)) {
-        itemStr += ' (<a title="PDF-version of this article" href="' + entryData.url + '">pdf<\/a>)';
+        itemStr += ' (<a title="PDF-version of this article" href="' + entryData.url + '" target="_blank">pdf<\/a>)';
       } else if (entryData.url) {
-        itemStr += ' (<a title="This article online" href="' + entryData.url + '">link<\/a>)';
+        itemStr += ' (<a title="This article online" href="' + entryData.url + '" target="_blank">link<\/a>)';
       }
       return itemStr;
     },
