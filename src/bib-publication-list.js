@@ -316,7 +316,9 @@ var bibtexify = (function($) {
           {"targets": 0, "sClass": "center"},
           {"targets": 1, "sClass": "center"}
         ],
-        'bPaginate': false
+        'bPaginate': true,
+        'bLengthChange': false,
+        'pageLength': 20
       });
     } else {
       // Define our data table, and created it
@@ -388,8 +390,9 @@ var bibtexify = (function($) {
     });
     var chartIdSelector = "#" + this.$pubTable[0].id + "pubchart";
     var pubHeight = $(chartIdSelector).height()/max - 2;
+    var numYears = Math.min(yearstats.length,this.options.max_year);
     var styleStr = chartIdSelector +" .year { width: " +
-          (100.0/yearstats.length) + "%; }" +
+          (100.0/numYears) + "%; }" +
           chartIdSelector + " .pub { height: " + pubHeight + "px; }";
     var legendTypes = [];
     var stats2html = function(item) {
@@ -416,9 +419,10 @@ var bibtexify = (function($) {
       return str + '<div class="yearlabel">' + item.year + '</div></div>';
     };
     var statsHtml = "<style>" + styleStr + "</style>";
-    yearstats.forEach(function(item) {
-      statsHtml += stats2html(item);
-    });
+    // Loop from min year to the latest year
+    for (var i = yearstats.length-numYears; i < yearstats.length; i++) {
+      statsHtml += stats2html(yearstats[i]);
+    }
     var legendHtml = '<div class="legend">';
     for (var i = 0, l = legendTypes.length; i < l; i++) {
       var legend = legendTypes[i];
@@ -452,6 +456,7 @@ var bibtexify = (function($) {
       'visualization': true,
       'searching': false,
       'future': false,
+      'max_year': 10,
       'sorting': [[0, "desc"], [1, "desc"]]
     }, opts);
     // Add our master class to the table
