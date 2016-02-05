@@ -21220,7 +21220,7 @@ var bibtexify = (function($) {
           bibentries.push(["To Be Determined", item.year, bib2html.labels[item.entryType], html]);
         else {
           // Parse date
-          var date = moment(item.read_date, ["MM\.dd\.yyyy", "MM-DD-YYYY", "DD-MM-YYYY"]);
+          var date = moment(item.read_date, ["MM\\.dd\\.yyyy", "MM-DD-YYYY", "DD-MM-YYYY"]);
           // Add color/bold if date has not past
           var date_str = (date.isAfter(moment()))? "<strong style='color:#FF4136;'>" + date.format('LL') + "<\/strong>" : date.format('LL');
           // Append to our entry list
