@@ -21220,9 +21220,11 @@ var bibtexify = (function($) {
           bibentries.push(["To Be Determined", item.year, bib2html.labels[item.entryType], html]);
         else {
           // Parse date
-          var date = moment(item.read_date, ["MM\\.dd\\.yyyy", "MM-DD-YYYY", "DD-MM-YYYY"]);
-          // Add color/bold if date has not past
-          var date_str = (date.isAfter(moment()))? "<strong style='color:#FF4136;'>" + date.format('LL') + "<\/strong>" : date.format('LL');
+          var date = moment(item.read_date, ["MM.DD.YYYY", "MM-DD-YYYY", "DD-MM-YYYY"]);
+          // Add color/bold if date has not past, or is the same
+          var date_str = (date.isAfter(moment()) ||
+            (date.isSame(moment(), "year") && date.isSame(moment(), "month")&& date.isSame(moment(), "day"))) ?
+            "<strong style='color:#FF4136;'>" + date.format("MMMM DD, YYYY") + "<\/strong>" : date.format("MMMM DD, YYYY");
           // Append to our entry list
           bibentries.push([date_str, item.year, bib2html.labels[item.entryType], html]);
         }
@@ -21248,8 +21250,12 @@ var bibtexify = (function($) {
     };
     // Define how to sort asc'ing for the "date" column
     jQuery.fn.dataTableExt.oSort['date-sort-asc'] = function(x, y) {
-      var item1 = new moment($(x).text(), 'LL');
-      var item2 = new moment($(y).text(), 'LL');
+      // Clean strings
+      x = x.replace(/<(?:.|\n)*?>/gm, '');
+      y = y.replace(/<(?:.|\n)*?>/gm, '');
+      // Parse date with moment
+      var item1 = new moment(x, ["MMMM DD, YYYY", "MM-DD-YYYY", "DD-MM-YYYY"]);
+      var item2 = new moment(y, ["MMMM DD, YYYY", "MM-DD-YYYY", "DD-MM-YYYY"]);
       // Check if date is valid entry
       if(!item1.isValid() || !item2.isValid())
         return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? -1 : 1;
@@ -21258,8 +21264,12 @@ var bibtexify = (function($) {
     };
     // Define how to sort desc'ing for the "date" column
     jQuery.fn.dataTableExt.oSort['date-sort-desc'] = function(x, y) {
-      var item1 = new moment($(x).text(), 'LL');
-      var item2 = new moment($(y).text(), 'LL');
+      // Clean strings
+      x = x.replace(/<(?:.|\n)*?>/gm, '');
+      y = y.replace(/<(?:.|\n)*?>/gm, '');
+      // Parse date with moment
+      var item1 = new moment(x, ["MMMM DD, YYYY", "MM-DD-YYYY", "DD-MM-YYYY"]);
+      var item2 = new moment(y, ["MMMM DD, YYYY", "MM-DD-YYYY", "DD-MM-YYYY"]);
       // Check if date is valid entry
       if(!item1.isValid() || !item2.isValid())
         return (!item1.isValid() && !item2.isValid()) ? 0 : (!item1.isValid()) ? 1 : -1;
